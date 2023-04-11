@@ -1,0 +1,34 @@
+- removing apache
+sudo service apache2 stop
+sudo apt-get remove apache2
+sudo apt-get purge apache2
+sudo apt-get autoremove
+sudo rm -rf /etc/apache2
+
+- install nginx Enable port 80 on the firewall 
+sudo apt update
+sudo apt install nginx
+sudo systemctl start nginx
+sudo systemctl enable nginx
+sudo systemctl status nginx
+sudo ufw allow 80/tcp
+sudo ufw status
+
+
+
+- Create index.html file on root directory of the server section and test it
+cd /var/www/html
+sudo nano index.html
+sudo systemctl status nginx
+
+
+- Install php-fpm package configure main site to enable php-fpm create index.php file and test it.
+sudo apt install php-fpm
+sudo nano /etc/nginx/sites-available/default
+add: location ~ \.php$ {
+    include snippets/fastcgi-php.conf;
+    fastcgi_pass unix:/var/run/php/php8.1-fpm.sock;
+}
+
+sudo systemctl restart nginx
+sudo nano /var/www/html/index.php
